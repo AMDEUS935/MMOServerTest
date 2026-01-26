@@ -1,0 +1,9 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\AMDEUS\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\AMDEUS\\.nuget\\packages",
+      "D:\\Visual Studio 2022 Tools\\NuGetPackages"
+    ]
+  }
+}
