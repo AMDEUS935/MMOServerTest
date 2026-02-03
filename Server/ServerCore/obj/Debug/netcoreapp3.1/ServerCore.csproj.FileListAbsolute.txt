@@ -14,6 +14,5 @@ C:\Users\AMDEUS\Downloads\MMO Server\Server\ServerCore\obj\Debug\netcoreapp3.1\S
 C:\Users\AMDEUS\Downloads\MMO Server\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
 C:\Users\AMDEUS\Downloads\MMO Server\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
 C:\Users\AMDEUS\Downloads\MMO Server\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
-C:\Users\AMDEUS\Downloads\MMO Server\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.sourcelink.json
 C:\Users\AMDEUS\Downloads\MMO Server\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
 C:\Users\AMDEUS\Downloads\MMO Server\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb

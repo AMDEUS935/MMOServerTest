@@ -27,3 +27,19 @@ C:\Users\123\MS_Project\MS_Server\PacketGenerator\obj\Debug\refint\PacketGenerat
 C:\Users\123\MS_Project\MS_Server\PacketGenerator\obj\Debug\PacketGenerator.pdb
 C:\Users\123\MS_Project\MS_Server\PacketGenerator\obj\Debug\PacketGenerator.genruntimeconfig.cache
 C:\Users\123\MS_Project\MS_Server\PacketGenerator\obj\Debug\ref\PacketGenerator.dll
+C:\Users\AMDEUS\Downloads\MMO Server\Server\PacketGenerator\bin\PacketGenerator.exe
+C:\Users\AMDEUS\Downloads\MMO Server\Server\PacketGenerator\bin\PacketGenerator.deps.json
+C:\Users\AMDEUS\Downloads\MMO Server\Server\PacketGenerator\bin\PacketGenerator.runtimeconfig.json
+C:\Users\AMDEUS\Downloads\MMO Server\Server\PacketGenerator\bin\PacketGenerator.runtimeconfig.dev.json
+C:\Users\AMDEUS\Downloads\MMO Server\Server\PacketGenerator\bin\PacketGenerator.dll
+C:\Users\AMDEUS\Downloads\MMO Server\Server\PacketGenerator\bin\PacketGenerator.pdb
+C:\Users\AMDEUS\Downloads\MMO Server\Server\PacketGenerator\bin\Google.Protobuf.dll
+C:\Users\AMDEUS\Downloads\MMO Server\Server\PacketGenerator\obj\Debug\PacketGenerator.csproj.AssemblyReference.cache
+C:\Users\AMDEUS\Downloads\MMO Server\Server\PacketGenerator\obj\Debug\PacketGenerator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\AMDEUS\Downloads\MMO Server\Server\PacketGenerator\obj\Debug\PacketGenerator.AssemblyInfoInputs.cache
+C:\Users\AMDEUS\Downloads\MMO Server\Server\PacketGenerator\obj\Debug\PacketGenerator.AssemblyInfo.cs
+C:\Users\AMDEUS\Downloads\MMO Server\Server\PacketGenerator\obj\Debug\PacketGenerator.csproj.CoreCompileInputs.cache
+C:\Users\AMDEUS\Downloads\MMO Server\Server\PacketGenerator\obj\Debug\PacketGe.F1D84891.Up2Date
+C:\Users\AMDEUS\Downloads\MMO Server\Server\PacketGenerator\obj\Debug\PacketGenerator.dll
+C:\Users\AMDEUS\Downloads\MMO Server\Server\PacketGenerator\obj\Debug\PacketGenerator.pdb
+C:\Users\AMDEUS\Downloads\MMO Server\Server\PacketGenerator\obj\Debug\PacketGenerator.genruntimeconfig.cache
