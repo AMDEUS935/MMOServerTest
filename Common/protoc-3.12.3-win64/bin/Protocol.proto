@@ -11,7 +11,7 @@ enum MsgId {
   S_DESPAWN = 3;
   C_MOVE = 4;
   S_MOVE = 5;
-  C_SKILL =6;
+  C_SKILL = 6;
   S_SKILL = 7;
 }
 enum CreatureState
@@ -64,10 +64,13 @@ message S_Move
 
 message C_Skill
 {
+	Skill_Info skill_Id = 1;
 }
 
 message S_Skill
 {
+	int32 playerId = 1;
+	Skill_Info info = 2;
 }
 
 message PlayerInfo
@@ -83,4 +86,9 @@ message PositionInfo
 	MoveDir moveDir = 2;
 	int32 posX = 3;
 	int32 posY = 4;
+}
+
+message Skill_Info
+{
+	int32 skill_Id = 1;
 }
