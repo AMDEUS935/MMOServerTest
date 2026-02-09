@@ -90,6 +90,33 @@ namespace Server.Game
 			}
 		}
 
+		public void HandleMove(Player player, C_Move movePacket)
+		{
+			if (player == null)
+				return;
+
+			lock (_lock)
+			{
+				// TODO : 검증
+
+				// 서버에 있는 내 위치 정보 갱신
+				PlayerInfo info = player.Info;
+				info.PosInfo = movePacket.PosInfo;
+
+				// 다른 플레이어한테도 알려줌
+				S_Move resMovePacket = new S_Move();
+				resMovePacket.PlayerId = player.Info.PlayerId;
+				resMovePacket.PosInfo = movePacket.PosInfo;
+
+				Broadcast(resMovePacket);
+			}
+
+			// 많이 뜨면 주석 처리
+			//Console.ForegroundColor = ConsoleColor.DarkGray;
+			//Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] [Move] ID({clientSession.SessionId}) -> ({movePacket.PosInfo.PosX:F2}, {movePacket.PosInfo.PosY:F2})");
+			//Console.ResetColor();
+		}
+
 		public void Broadcast(IMessage packet)
 		{
 			lock (_lock)
