@@ -64,7 +64,7 @@ message S_Move
 
 message C_Skill
 {
-	Skill_Info skill_Id = 1;
+	Skill_Info info = 1;
 }
 
 message S_Skill
