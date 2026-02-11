@@ -43,7 +43,7 @@ public class MyPlayerController : PlayerController
 			skill.Info.SkillId = 1;
 			Managers.Network.Send(skill);
 
-			_coSkillCooltime = StartCoroutine("CoSkillCooltime", 0.2f); 
+			_coSkillCooltime = StartCoroutine("CoInputCooltime", 0.2f); 
 		}
 	}
 
