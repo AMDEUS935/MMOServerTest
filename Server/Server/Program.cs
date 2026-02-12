@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net;
-using Server.Game;
+using Server.Game.Room;
 using ServerCore;
 
 namespace Server

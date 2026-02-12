@@ -8,7 +8,8 @@ using ServerCore;
 using System.Net;
 using Google.Protobuf.Protocol;
 using Google.Protobuf;
-using Server.Game;
+using Server.Game.Object;
+using Server.Game.Room;
 
 namespace Server
 {
@@ -38,7 +39,7 @@ namespace Server
 			Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] [Server] Player {SessionId} Connected : {endPoint}");
 			Console.ResetColor();
 
-			MyPlayer = PlayerManager.Instance.Add();
+			MyPlayer = ObjectManager.Instance.Add<Player>();
 			{
 				MyPlayer.Info.Name = $"Player{MyPlayer.Info.ObjectId}";	
 				MyPlayer.Info.PosInfo.State = CreatureState.Idle;

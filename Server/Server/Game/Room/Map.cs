@@ -1,11 +1,12 @@
 ﻿using Google.Protobuf.Protocol;
+using Server.Game.Object;
 using ServerCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Server.Game
+namespace Server.Game.Room
 {
 	public struct Pos
 	{
@@ -139,7 +140,7 @@ namespace Server.Game
 				string line = reader.ReadLine();
 				for (int x = 0; x < xCount; x++)
 				{
-					_collision[y, x] = (line[x] == '1' ? true : false);
+					_collision[y, x] = line[x] == '1' ? true : false;
 				}
 			}
 		}
@@ -170,7 +171,7 @@ namespace Server.Game
 			int[,] open = new int[SizeY, SizeX]; // OpenList
 			for (int y = 0; y < SizeY; y++)
 				for (int x = 0; x < SizeX; x++)
-					open[y, x] = Int32.MaxValue;
+					open[y, x] = int.MaxValue;
 
 			Pos[,] parent = new Pos[SizeY, SizeX];
 

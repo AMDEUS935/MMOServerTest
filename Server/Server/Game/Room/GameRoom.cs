@@ -1,12 +1,13 @@
 ﻿using Google.Protobuf;
 using Google.Protobuf.Protocol;
+using Server.Game.Object;
 using ServerCore;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 
-namespace Server.Game
+namespace Server.Game.Room
 {
 	public class GameRoom
 	{
