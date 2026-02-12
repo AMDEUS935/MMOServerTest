@@ -18,7 +18,7 @@ public class MapEditor
 	[MenuItem("Tools/GenerateMap %#g")]
 	private static void GenerateMap()
 	{
-		GenerateByPath("Assets/Resources/Prefabs/Map");
+		GenerateByPath("Assets/Resources/Map");
 		GenerateByPath("../Common/MapData");
 	}
 
@@ -31,7 +31,7 @@ public class MapEditor
 			Tilemap tmBase = Util.FindChild<Tilemap>(go, "Tilemap_Base", true);
 			Tilemap tm = Util.FindChild<Tilemap>(go, "Tilemap_Collision", true);
 
-			using (var writer = File.CreateText($"{pathPrefix}/{go.name}.txt"))
+			using (var writer = File.CreateText($"{pathPrefix }/{go.name}.txt"))
 			{
 				writer.WriteLine(tmBase.cellBounds.xMin);
 				writer.WriteLine(tmBase.cellBounds.xMax);
@@ -53,6 +53,7 @@ public class MapEditor
 			}
 		}
 	}
+
 #endif
 
 }

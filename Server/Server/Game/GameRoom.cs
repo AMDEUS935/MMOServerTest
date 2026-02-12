@@ -13,7 +13,14 @@ namespace Server.Game
 		object _lock = new object();
 		public int RoomId { get; set; }
 
-		List<Player> _players = new List<Player>();
+		Dictionary<int, Player> _players = new Dictionary<int, Player>();
+
+		Map _map = new Map();
+
+		public void Init(int mapId)
+		{
+			_map.LoadMap(mapId);
+		}
 
 		public void EnterGame(Player newPlayer)
 		{
@@ -22,7 +29,7 @@ namespace Server.Game
 
 			lock (_lock)
 			{
-				_players.Add(newPlayer);
+				_players.Add(newPlayer.Info.PlayerId, newPlayer);
 				newPlayer.Room = this;
 
 				Console.ForegroundColor = ConsoleColor.Cyan;
@@ -36,7 +43,7 @@ namespace Server.Game
 					newPlayer.Session.Send(enterPacket);
 
 					S_Spawn spawnPacket = new S_Spawn();
-					foreach (Player p in _players)
+					foreach (Player p in _players.Values)
 					{
 						if (newPlayer != p)
 							spawnPacket.Players.Add(p.Info);
@@ -48,7 +55,7 @@ namespace Server.Game
 				{
 					S_Spawn spawnPacket = new S_Spawn();
 					spawnPacket.Players.Add(newPlayer.Info);
-					foreach (Player p in _players)
+					foreach (Player p in _players.Values)
 					{
 						if (newPlayer != p)
 							p.Session.Send(spawnPacket);
@@ -61,11 +68,10 @@ namespace Server.Game
 		{
 			lock (_lock)
 			{
-				Player player = _players.Find(p => p.Info.PlayerId == playerId);
-				if (player == null)
+				Player player = null;
+				if (_players.Remove(playerId, out player) == false)
 					return;
 
-				_players.Remove(player);
 				player.Room = null;
 
 				// 본인한테 정보 전송
@@ -78,7 +84,7 @@ namespace Server.Game
 				{
 					S_Despawn despawnPacket = new S_Despawn();
 					despawnPacket.PlayerIds.Add(player.Info.PlayerId);
-					foreach (Player p in _players)
+					foreach (Player p in _players.Values)
 					{
 						if (player != p)
 							p.Session.Send(despawnPacket);
@@ -98,10 +104,20 @@ namespace Server.Game
 			lock (_lock)
 			{
 				// TODO : 검증
-
-				// 서버에 있는 내 위치 정보 갱신
+				PositionInfo movePosInfo = movePacket.PosInfo;
 				PlayerInfo info = player.Info;
-				info.PosInfo = movePacket.PosInfo;
+
+				// 좌표 이동시, 이동 가능 여부 체크
+				if (movePosInfo.PosX != info.PosInfo.PosX || movePosInfo.PosY != info.PosInfo.PosY)
+				{
+					if (_map.CanGo(new Vector2Int(movePosInfo.PosX, movePosInfo.PosY)) == false)
+						return;
+				}
+
+				info.PosInfo.State = movePosInfo.State;
+				info.PosInfo.MoveDir = movePosInfo.MoveDir;
+				_map.ApplyMove(player, new Vector2Int(movePosInfo.PosX, movePosInfo.PosY));
+
 
 				// 다른 플레이어한테도 알려줌
 				S_Move resMovePacket = new S_Move();
@@ -140,6 +156,12 @@ namespace Server.Game
 				Broadcast(skill);
 
 				// TODO : 데미지 판정
+				Vector2Int skillPos = player.GetFrontCellPos(info.PosInfo.MoveDir);
+				Player target = _map.Find(skillPos);
+				if (target != null)
+				{
+					Console.WriteLine("Hit Player!");
+				}
 			}
 		}
 
@@ -147,7 +169,7 @@ namespace Server.Game
 		{
 			lock (_lock)
 			{
-				foreach (Player p in _players)
+				foreach (Player p in _players.Values)
 				{
 					p.Session.Send(packet);
 				}
