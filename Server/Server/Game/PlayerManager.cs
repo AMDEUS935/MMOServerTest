@@ -18,7 +18,7 @@ namespace Server.Game
 
 			lock (_lock)
 			{
-				player.Info.PlayerId = _playerId;
+				player.Info.ObjectId = _playerId;
 				_players.Add(_playerId, player);
 				_playerId++;
 			}
