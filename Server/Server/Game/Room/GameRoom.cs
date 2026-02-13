@@ -143,7 +143,7 @@ namespace Server.Game.Room
 				// 타인한테 정보 전송
 				{
 					S_Despawn despawnPacket = new S_Despawn();
-					despawnPacket.PlayerIds.Add(objectId);
+					despawnPacket.ObjectIds.Add(objectId);
 					foreach (Player p in _players.Values)
 					{
 						if (p.id != objectId)
