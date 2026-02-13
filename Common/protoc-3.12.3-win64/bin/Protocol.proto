@@ -65,7 +65,7 @@ message C_Move
 
 message S_Move
 {
-	int32 playerId = 1;
+	int32 objectId = 1;
 	PositionInfo posInfo = 2;
 }
 
@@ -76,7 +76,7 @@ message C_Skill
 
 message S_Skill
 {
-	int32 playerId = 1;
+	int32 objectId = 1;
 	Skill_Info info = 2;
 }
 

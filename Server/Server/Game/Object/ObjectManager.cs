@@ -39,7 +39,7 @@ namespace Server.Game.Object
 			}
 		}
 
-		public static GameObjectType GetObjectById(int id)
+		public static GameObjectType GetObjectTypeById(int id)
 		{
 			int type = (id >> 24) & 0x7F;
 
@@ -48,7 +48,7 @@ namespace Server.Game.Object
 
 		public bool Remove(int objectId)
 		{
-			GameObjectType objectType = GetObjectById(objectId);
+			GameObjectType objectType = GetObjectTypeById(objectId);
 
 			lock (_lock)
 			{
@@ -61,7 +61,7 @@ namespace Server.Game.Object
 
 		public Player Find(int objectId)
 		{
-			GameObjectType objectType = GetObjectById(objectId);
+			GameObjectType objectType = GetObjectTypeById(objectId);
 
 			lock (_lock)
 			{

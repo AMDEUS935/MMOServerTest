@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Threading;
 using Server.Game.Room;
 using ServerCore;
 
@@ -23,7 +24,9 @@ namespace Server
 
 			while (true)
 			{
-				;
+				RoomManager.Instance.Find(1).Update();
+
+				Thread.Sleep(100);
 			}
 		}
 	}
