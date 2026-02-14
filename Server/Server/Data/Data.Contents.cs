@@ -1,12 +1,11 @@
 ﻿using Google.Protobuf.Protocol;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Text;
 
-namespace Data
-{ 
-#region Stat
+namespace Server.Data
+{
+	#region Stat
 	[Serializable]
 	public class Stat
 	{
@@ -35,12 +34,12 @@ namespace Data
 	[Serializable]
 	public class Skill
 	{
-		public int id;
-		public string name;
-		public float cooldown;
-		public int damage;
-		public SkillType skillType;
-		public ProjectileInfo projectile;
+		public int Id;
+		public string Name;
+		public float Cooldown; 
+		public int Damage;
+		public SkillType SkillType; 
+		public ProjectileInfo Projectile; 
 
 	}
 
@@ -61,7 +60,7 @@ namespace Data
 		{
 			Dictionary<int, Skill> dict = new Dictionary<int, Skill>();
 			foreach (Skill skill in skills)
-				dict.Add(skill.id, skill);
+				dict.Add(skill.Id, skill);
 			return dict;
 		}
 	}

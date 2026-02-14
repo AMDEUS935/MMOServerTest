@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading;
+using Server.Data;
 using Server.Game.Room;
 using ServerCore;
 
@@ -12,6 +13,11 @@ namespace Server
 
 		static void Main(string[] args)
 		{
+			ConfigManager.LoadConfig();
+			DataManager.LoadData();
+
+			var d = DataManager.StatDict;
+
 			RoomManager.Instance.Add(1);
 
             string host = Dns.GetHostName();
@@ -26,7 +32,7 @@ namespace Server
 			{
 				RoomManager.Instance.Find(1).Update();
 
-				Thread.Sleep(100);
+				// Thread.Sleep(100);
 			}
 		}
 	}

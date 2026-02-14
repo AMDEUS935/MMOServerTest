@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf;
 using Google.Protobuf.Protocol;
+using Server.Data;
 using Server.Game.Object;
 using ServerCore;
 using System;
@@ -160,7 +161,6 @@ namespace Server.Game.Room
 
 			lock (_lock)
 			{
-				// TODO : 검증
 				PositionInfo movePosInfo = movePacket.PosInfo;
 				ObjectInfo info = player.Info;
 
@@ -183,11 +183,6 @@ namespace Server.Game.Room
 
 				Broadcast(resMovePacket);
 			}
-
-			// 많이 뜨면 주석 처리
-			//Console.ForegroundColor = ConsoleColor.DarkGray;
-			//Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] [Move] ID({clientSession.SessionId}) -> ({movePacket.PosInfo.PosX:F2}, {movePacket.PosInfo.PosY:F2})");
-			//Console.ResetColor();
 		}
 
 		public void HandleSkill(Player player, C_Skill skillPacket)
@@ -202,8 +197,6 @@ namespace Server.Game.Room
 				if (info.PosInfo.State != CreatureState.Idle)
 					return;
 
-				// TODO : 스킬 가능여부 체크
-
 				info.PosInfo.State = CreatureState.Skill;
 
 				S_Skill skill = new S_Skill() { Info = new Skill_Info() };
@@ -213,32 +206,41 @@ namespace Server.Game.Room
 
 				Broadcast(skill);
 
-				if (skillPacket.Info.SkillId == 1)
+				Data.Skill skillData = null;
+				if (DataManager.SkillDict.TryGetValue(skillPacket.Info.SkillId, out skillData) == false)
+					return;
+
+				switch (skillData.SkillType)
 				{
-					// TODO : 데미지 판정
-					Vector2Int skillPos = player.GetFrontCellPos(info.PosInfo.MoveDir);
-					GameObject target = Map.Find(skillPos);
-					if (target != null)
+					case SkillType.SkillAuto:
 					{
-						Console.WriteLine("Hit GameObject!");
+						Vector2Int skillPos = player.GetFrontCellPos(info.PosInfo.MoveDir);
+						GameObject target = Map.Find(skillPos);
+						if (target != null)
+						{
+							Console.WriteLine("Hit GameObject!");
+						}
 					}
-				}
-				else if (skillPacket.Info.SkillId == 2)
-				{
-					Arrow arrow = ObjectManager.Instance.Add<Arrow>();
-					
-					if (arrow == null)
-						return;
+						break;
+					case SkillType.SkillProjectile:
+					{
+						Arrow arrow = ObjectManager.Instance.Add<Arrow>();
 
-					arrow.Owner = player;
+						if (arrow == null)
+							return;
 
-					arrow.PosInfo.State = CreatureState.Moving;
-					arrow.PosInfo.MoveDir = info.PosInfo.MoveDir;
+						arrow.Owner = player;
+						arrow.Data = skillData;
 
-					arrow.PosInfo.PosX = info.PosInfo.PosX;
-					arrow.PosInfo.PosY = info.PosInfo.PosY;
+						arrow.PosInfo.State = CreatureState.Moving;
+						arrow.PosInfo.MoveDir = info.PosInfo.MoveDir;
 
-					EnterGame(arrow);
+						arrow.PosInfo.PosX = info.PosInfo.PosX;
+						arrow.PosInfo.PosY = info.PosInfo.PosY;
+
+						EnterGame(arrow);
+					}
+						break;
 				}
 			}
 		}
