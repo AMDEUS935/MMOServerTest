@@ -42,12 +42,11 @@ namespace Server.Game.Object
 				
 				if (target != null)
 				{
-					// 피격 판정
+					target.OnDamaged(Owner, Data.Damage);
 				}
 
 				Room.LeaveGame(id);
 			}
-
 		}
 	}
 }
