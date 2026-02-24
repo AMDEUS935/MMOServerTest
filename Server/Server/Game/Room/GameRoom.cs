@@ -31,7 +31,7 @@ namespace Server.Game.Room
 		{
 			lock (_lock)
 			{
-				foreach (var projectile in _projectiles.Values)
+				foreach (Projectile projectile in _projectiles.Values)
 				{
 					projectile.Update();
 				}
@@ -237,6 +237,7 @@ namespace Server.Game.Room
 
 						arrow.PosInfo.PosX = info.PosInfo.PosX;
 						arrow.PosInfo.PosY = info.PosInfo.PosY;
+						arrow.Speed = skillData.Projectile.speed;
 
 						EnterGame(arrow);
 					}

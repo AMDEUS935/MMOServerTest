@@ -13,7 +13,7 @@ namespace Server.Game.Object
 		public Player()
 		{
 			ObjectType = GameObjectType.Player;
-			Speed = 10.0f;
+			Speed = 20.0f;
 		}
 
 		public override void OnDamaged(GameObject attacker, int damage)
