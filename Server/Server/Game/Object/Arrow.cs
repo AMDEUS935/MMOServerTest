@@ -42,7 +42,7 @@ namespace Server.Game.Object
 				
 				if (target != null)
 				{
-					target.OnDamaged(Owner, Data.Damage);
+					target.OnDamaged(Owner, Data.Damage + Owner.Stat.Attack);
 				}
 
 				Room.LeaveGame(id);
