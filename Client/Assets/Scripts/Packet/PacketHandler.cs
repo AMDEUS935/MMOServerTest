@@ -87,11 +87,7 @@ class PacketHandler
 
 		if (cc != null)
 		{
-			cc.Stat.Hp = changePacket.Hp;
-
-			// TODO : UI Update
-
-			Debug.Log($"ChangeHP : {changePacket.Hp}");
+			cc.Hp = changePacket.Hp;
 		}
 	}
 }
