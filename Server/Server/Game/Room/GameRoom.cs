@@ -17,7 +17,7 @@ namespace Server.Game.Room
 		public int RoomId { get; set; }
 
 		Dictionary<int, Player> _players = new Dictionary<int, Player>();
-		Dictionary<int, Monster> _monster = new Dictionary<int, Monster>();
+		Dictionary<int, Monster> _monsters = new Dictionary<int, Monster>();
 		Dictionary<int, Projectile> _projectiles = new Dictionary<int, Projectile>();
 
 		public Map Map{ get; private set; } = new Map();
@@ -53,9 +53,7 @@ namespace Server.Game.Room
 					_players.Add(gameObject.id, player);
 					player.Room = this;
 
-					Console.ForegroundColor = ConsoleColor.Cyan;
-					Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] [Room] Player {player.Info.ObjectId} Entered GameRoom. (Total: {_players.Count})");
-					Console.ResetColor();
+					Map.ApplyMove(player, new Vector2Int(player.CellPos.x, player.CellPos.y));
 
 					// 본인한테 정보 전송
 					{
@@ -69,6 +67,13 @@ namespace Server.Game.Room
 							if (player != p)
 								spawnPacket.Objects.Add(p.Info);
 						}
+
+						foreach (Monster m in _monsters.Values)
+							spawnPacket.Objects.Add(m.Info);
+
+						foreach (Projectile p in _projectiles.Values)
+							spawnPacket.Objects.Add(p.Info);
+
 						player.Session.Send(spawnPacket);
 					}
 				}
@@ -76,8 +81,10 @@ namespace Server.Game.Room
 				else if (type == GameObjectType.Monster)
 				{
 					Monster monster = gameObject as Monster;
-					_monster.Add(gameObject.id, monster);
+					_monsters.Add(gameObject.id, monster);
 					monster.Room = this;
+
+					Map.ApplyMove(monster, new Vector2Int(monster.CellPos.x, monster.CellPos.y));
 				}
 
 				else if (type == GameObjectType.Projectile)
@@ -125,7 +132,7 @@ namespace Server.Game.Room
 				{
 					Monster monster = null;
 
-					if (_monster.Remove(objectId, out monster) == false)
+					if (_monsters.Remove(objectId, out monster) == false)
 						return;
 
 					monster.Room = null;
