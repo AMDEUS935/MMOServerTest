@@ -49,6 +49,15 @@ namespace Server.Game.Room
 		{
 			return new Vector2Int(a.x + b.x, a.y + b.y);
 		}
+
+		public static Vector2Int operator -(Vector2Int a, Vector2Int b)
+		{
+			return new Vector2Int(a.x - b.x, a.y - b.y);
+		}
+
+		public float magnitude { get { return (float)Math.Sqrt(sqrMagnitude); } }
+		public int sqrMagnitude { get { return (x * x + y * y); } }
+		public int cellDistFromZero { get { return Math.Abs(x) + Math.Abs(y); } }
 	}
 
 	public class Map
@@ -164,30 +173,19 @@ namespace Server.Game.Room
 		int[] _deltaX = new int[] { 0, 0, -1, 1 };
 		int[] _cost = new int[] { 10, 10, 10, 10 };
 
-		public List<Vector2Int> FindPath(Vector2Int startCellPos, Vector2Int destCellPos, bool ignoreDestCollision = false)
+		public List<Vector2Int> FindPath(Vector2Int startCellPos, Vector2Int destCellPos, bool checkObjects = true)
 		{
 			List<Pos> path = new List<Pos>();
 
-			// 점수 매기기
-			// F = G + H
-			// F = 최종 점수 (작을 수록 좋음, 경로에 따라 달라짐)
-			// G = 시작점에서 해당 좌표까지 이동하는데 드는 비용 (작을 수록 좋음, 경로에 따라 달라짐)
-			// H = 목적지에서 얼마나 가까운지 (작을 수록 좋음, 고정)
+			bool[,] closed = new bool[SizeY, SizeX]; 
 
-			// (y, x) 이미 방문했는지 여부 (방문 = closed 상태)
-			bool[,] closed = new bool[SizeY, SizeX]; // CloseList
-
-			// (y, x) 가는 길을 한 번이라도 발견했는지
-			// 발견X => MaxValue
-			// 발견O => F = G + H
-			int[,] open = new int[SizeY, SizeX]; // OpenList
+			int[,] open = new int[SizeY, SizeX];
 			for (int y = 0; y < SizeY; y++)
 				for (int x = 0; x < SizeX; x++)
 					open[y, x] = int.MaxValue;
 
 			Pos[,] parent = new Pos[SizeY, SizeX];
 
-			// 오픈리스트에 있는 정보들 중에서, 가장 좋은 후보를 빠르게 뽑아오기 위한 도구
 			PriorityQueue<PQNode> pq = new PriorityQueue<PQNode>();
 
 			// CellPos -> ArrayPos
@@ -201,43 +199,42 @@ namespace Server.Game.Room
 
 			while (pq.Count > 0)
 			{
-				// 제일 좋은 후보를 찾는다
+				
 				PQNode node = pq.Pop();
-				// 동일한 좌표를 여러 경로로 찾아서, 더 빠른 경로로 인해서 이미 방문(closed)된 경우 스킵
+				
 				if (closed[node.Y, node.X])
 					continue;
 
-				// 방문한다
+				
 				closed[node.Y, node.X] = true;
-				// 목적지 도착했으면 바로 종료
+				
 				if (node.Y == dest.Y && node.X == dest.X)
 					break;
 
-				// 상하좌우 등 이동할 수 있는 좌표인지 확인해서 예약(open)한다
+				
 				for (int i = 0; i < _deltaY.Length; i++)
 				{
 					Pos next = new Pos(node.Y + _deltaY[i], node.X + _deltaX[i]);
 
-					// 유효 범위를 벗어났으면 스킵
-					// 벽으로 막혀서 갈 수 없으면 스킵
-					if (!ignoreDestCollision || next.Y != dest.Y || next.X != dest.X)
+
+					if (next.Y != dest.Y || next.X != dest.X)
 					{
-						if (CanGo(Pos2Cell(next)) == false) // CellPos
+						if (CanGo(Pos2Cell(next), checkObjects) == false)
 							continue;
 					}
 
-					// 이미 방문한 곳이면 스킵
+					
 					if (closed[next.Y, next.X])
 						continue;
 
-					// 비용 계산
-					int g = 0;// node.G + _cost[i];
+					
+					int g = 0;
 					int h = 10 * ((dest.Y - next.Y) * (dest.Y - next.Y) + (dest.X - next.X) * (dest.X - next.X));
-					// 다른 경로에서 더 빠른 길 이미 찾았으면 스킵
+					
 					if (open[next.Y, next.X] < g + h)
 						continue;
 
-					// 예약 진행
+					
 					open[dest.Y, dest.X] = g + h;
 					pq.Push(new PQNode() { F = g + h, G = g, Y = next.Y, X = next.X });
 					parent[next.Y, next.X] = new Pos(node.Y, node.X);
