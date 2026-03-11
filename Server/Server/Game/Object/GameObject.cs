@@ -1,4 +1,5 @@
 ﻿using Google.Protobuf.Protocol;
+using Server.Data;
 using Server.Game.Room;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,12 @@ namespace Server.Game.Object
 		{
 			get { return Stat.Speed; }
 			set { Stat.Speed = value; }
+		}
+
+		public int hp
+		{
+			get { return Stat.Hp; }
+			set { Stat.Hp = Math.Clamp(value, 0, Stat.MaxHp); }
 		}
 
 		public MoveDir Dir

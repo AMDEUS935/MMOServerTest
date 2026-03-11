@@ -96,7 +96,7 @@ public class PlayerController : CreatureController
 		base.UpdateController();
 	}
 
-	public void UseSkill(int skill_Id)
+	public override void UseSkill(int skill_Id)
 	{
 		if (skill_Id == 1)
 		{

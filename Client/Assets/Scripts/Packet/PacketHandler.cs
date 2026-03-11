@@ -65,13 +65,12 @@ class PacketHandler
 		if (go == null)
 			return;
 
-		PlayerController pc = go.GetComponent<PlayerController>();
+		CreatureController cc = go.GetComponent<CreatureController>();
 		
-		if (pc != null)
+		if (cc != null)
 		{
-			pc.UseSkill(skillPacket.Info.SkillId);
+			cc.UseSkill(skillPacket.Info.SkillId);
 		}
-
 	}
 
 	public static void S_ChangeHpHandler(PacketSession session, IMessage packet)
