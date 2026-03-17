@@ -42,6 +42,8 @@ namespace Server.Game.Room
 			{
 				projectile.Update();
 			}
+
+			Flush();
 		}
 
 		public void EnterGame(GameObject gameObject)
@@ -136,8 +138,8 @@ namespace Server.Game.Room
 				if (_monsters.Remove(objectId, out monster) == false)
 					return;
 
-				monster.Room = null;
 				Map.ApplyLeave(monster);
+				monster.Room = null;
 			}
 			else if (type == GameObjectType.Projectile)
 			{
