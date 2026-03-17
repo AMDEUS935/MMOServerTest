@@ -49,9 +49,10 @@ namespace Server
 
 				MyPlayer.Session = this;
             }
-
-            RoomManager.Instance.Find(1).EnterGame(MyPlayer);
-        }
+            //RoomManager.Instance.Find(1).EnterGame(MyPlayer);
+			GameRoom room = RoomManager.Instance.Find(1);
+			room.Push(room.EnterGame, MyPlayer);
+		}
 
         public override void OnRecvPacket(ArraySegment<byte> buffer)
 		{
@@ -60,12 +61,11 @@ namespace Server
 
 		public override void OnDisconnected(EndPoint endPoint)
 		{
-			RoomManager.Instance.Find(1).LeaveGame(MyPlayer.Info.ObjectId);
+			//RoomManager.Instance.Find(1).LeaveGame(MyPlayer.Info.ObjectId);
+			GameRoom room = RoomManager.Instance.Find(1);
+			room.Push(room.LeaveGame, MyPlayer.Info.ObjectId);
 
-            SessionManager.Instance.Remove(this);
-			Console.ForegroundColor = ConsoleColor.Yellow;
-			Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] [Server] Player {SessionId} Disconnected : {endPoint}");
-			Console.ResetColor();
+			SessionManager.Instance.Remove(this);
 		}
 
 		public override void OnSend(int numOfBytes)
